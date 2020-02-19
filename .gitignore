@@ -5,3 +5,4 @@ data/*
 **/*.tgz
 **/*.zip
 **/*.ipynb_checkpoints
+**/*.pdf
