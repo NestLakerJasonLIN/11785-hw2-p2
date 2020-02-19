@@ -1,0 +1,7 @@
+data/*
+!data/.gitkeep
+**/._*
+**/.DS_Store
+**/*.tgz
+**/*.zip
+**/*.ipynb_checkpoints
