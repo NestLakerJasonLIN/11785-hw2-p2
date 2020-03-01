@@ -7,3 +7,4 @@ data
 **/*.zip
 **/*.ipynb_checkpoints
 **/*.pdf
+**/*.pt
