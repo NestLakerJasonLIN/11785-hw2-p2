@@ -1,0 +1,29 @@
+* Model architecture
+    The MobileNetV2 is adopted with modification on the hyper-parameters. The main hyper-parameters changed are stride for each layer and the dimension for the last linear layer. The reason is that our image is much smaller than the input for original MobileNetV2 model. In our case, the width and height of image is only 32 so if we take stride 2 for 5 times, the final hidden dimension will become 1, which is definitely unacceptable. So I tuned with this hyper-parameter a lot and finally found that use stride of 2 for 4 layers works best. The changing of last linear layer is because the number of our output labels are 2300 which is larger than 1280, which is what the original model specified.
+
+* Loss function
+    The CrossEntropyLoss is adopted. In addition, I used the ReduceOnPlateau learning rate scheduler to deal with slow learning after around 30 epochs. The SGD optimizer is used for my model.
+
+* Hyper-parameters
+    Here is the full list of my hyper-parameters for all convolutional layers and linear layers.
+    Format: 
+
+    layer_type, in_channels, exponential_rate, out_channels, repeated_times, stride, kernel_size
+
+    convolutional layer,    3,    1,   32,    1,    1,    3
+       bottleneck layer,   32,    1,   16,    1,    1,    3
+       bottleneck layer,   16,    6,   24,    2,    1,    3
+       bottleneck layer,   24,    6,   32,    3,    2,    3
+       bottleneck layer,   32,    6,   64,    4,    2,    3
+       bottleneck layer,   96,    6,  160,    3,    2,    3
+       bottleneck layer,  160,    6,  320,    1,    1,    3
+    convolutional layer,  320,    1, 4096,    1,    1,    1
+           linear layer, 4096,    1, 2300,    1,    1,    1
+
+    Note: all convolutional layers are followed by a BatchNorm layer and a ReLU6 layer.
+
+* How to run
+    $ # for classification task
+    $ python3 classification.py
+    $ # for verfication task
+    $ python3 verfication.py
